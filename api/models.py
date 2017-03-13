@@ -11,3 +11,4 @@ class Item(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     unit_price = models.BigIntegerField
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, null=True)
