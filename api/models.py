@@ -26,6 +26,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    merchants = models.ManyToManyField(Merchant, through='Invoice')
 
     def __unicode__(self):
         return '%s %s' % (self.first_name, self.last_name)

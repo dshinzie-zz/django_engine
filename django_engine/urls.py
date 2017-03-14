@@ -23,6 +23,13 @@ router.register(r'invoice_items', views.InvoiceItemViewSet)
 router.register(r'invoice_items/(?P<invoice_item_id>\d+)/invoice', views.InvoiceItemInvoiceViewSet, 'InvoiceItem')
 router.register(r'invoice_items/(?P<invoice_item_id>\d+)/item', views.InvoiceItemItemViewSet, 'InvoiceItem')
 
+router.register(r'transactions', views.TransactionViewSet)
+router.register(r'transactions/(?P<transaction_id>\d+)/invoice', views.TransactionInvoiceViewSet, 'Transaction')
+
+router.register(r'customers', views.CustomerViewSet)
+router.register(r'customers/(?P<customer_id>\d+)/invoices', views.CustomerInvoiceViewSet, 'Customer')
+router.register(r'customers/(?P<customer_id>\d+)/transactions', views.CustomerTransactionViewSet, 'Customer')
+
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
