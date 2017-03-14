@@ -5,9 +5,9 @@ This project is a rewrite of [Rails Engine](https://github.com/dshinzie/rails-en
 
 ###Instructions
 To set up the application, run the following commands in the order listed:
-  * ```./manage.py makemigrations```
-  * ```./manage.py migrate```
-  * ```rake load_data:all```  
+  * ```python manage.py makemigrations```
+  * ```python manage.py migrate```
+  * ```python -m api.scripts.load_data```  
 
 * How to run the test suite
   * ```rspec``` from the root directory

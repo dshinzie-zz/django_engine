@@ -12,3 +12,5 @@ class Item(models.Model):
     description = models.CharField(max_length=200)
     unit_price = models.BigIntegerField
     merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, null=True)
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
