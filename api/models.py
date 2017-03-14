@@ -9,8 +9,8 @@ class Merchant(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
-    unit_price = models.BigIntegerField
+    description = models.TextField(null=True)
+    unit_price = models.BigIntegerField(null=True)
     merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
