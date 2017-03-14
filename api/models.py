@@ -7,7 +7,7 @@ class Merchant(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 class Item(models.Model):
@@ -18,8 +18,8 @@ class Item(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
-        return self.name, self.description, self.unit_price, self.merchant, self.invoices
+    def __unicode__(self):
+        return '%s %s %s %s' % (self.name, self.description, self.unit_price, self.merchant)
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=200)
@@ -27,8 +27,8 @@ class Customer(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
-        return self.first_name, self.last_name
+    def __unicode__(self):
+        return '%s %s' % (self.first_name, self.last_name)
 
 class Invoice(models.Model):
     status = models.CharField(max_length=200)
@@ -38,8 +38,8 @@ class Invoice(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
-        return self.status, self.merchant, self.customer, self.merchant, self.items
+    def __unicode__(self):
+        return '%s %s %s %s %s' % (self.status, self.merchant, self.customer, self.merchant, self.items)
 
 class Transaction(models.Model):
     credit_card_number = models.CharField(max_length=200)
@@ -49,8 +49,8 @@ class Transaction(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
-        return self.credit_card_number, self.credit_card_expiration_date, self.result, self.invoice
+    def __unicode__(self):
+        return '%s %s %s %s' % (self.credit_card_number, self.credit_card_expiration_date, self.result, self.invoice)
 
 class InvoiceItem(models.Model):
     quantity = models.IntegerField(null=True)
@@ -60,5 +60,5 @@ class InvoiceItem(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
-        return self.quantity, self.unit_price, self.invoice, self.item
+    def __unicode__(self):
+        return '%s %s %s %s' % (self.quantity, self.unit_price, self.invoice, self.item)

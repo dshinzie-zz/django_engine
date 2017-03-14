@@ -10,6 +10,7 @@ router.register(r'merchants/(?P<merchant_id>\d+)/invoices', views.MerchantInvoic
 
 router.register(r'items', views.ItemViewSet)
 router.register(r'items/(?P<item_id>\d+)/merchant', views.ItemMerchantViewSet, 'Item')
+router.register(r'items/(?P<item_id>\d+)/invoice_items', views.ItemInvoiceItemViewSet, 'Item')
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
