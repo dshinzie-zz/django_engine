@@ -1,4 +1,4 @@
-from .models import Merchant, Item, Invoice, InvoiceItem
+from .models import Merchant, Item, Invoice, InvoiceItem, Transaction
 from rest_framework import serializers
 
 class MerchantSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,3 +20,8 @@ class InvoiceItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = InvoiceItem
         fields = ('id', 'quantity', 'unit_price', 'item_id', 'invoice_id')
+
+class TransactionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ('id', 'credit_card_number', 'invoice_id', 'result')
