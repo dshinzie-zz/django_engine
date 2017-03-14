@@ -14,7 +14,14 @@ router.register(r'items/(?P<item_id>\d+)/invoice_items', views.ItemInvoiceItemVi
 
 router.register(r'invoices', views.InvoiceViewSet)
 router.register(r'invoices/(?P<invoice_id>\d+)/transactions', views.InvoiceTransactionViewSet, 'Invoice')
+router.register(r'invoices/(?P<invoice_id>\d+)/invoice_items', views.InvoiceInvoiceItemViewSet, 'Invoice')
+router.register(r'invoices/(?P<invoice_id>\d+)/items', views.InvoiceItemViewSet, 'Invoice')
+router.register(r'invoices/(?P<invoice_id>\d+)/customer', views.InvoiceCustomerViewSet, 'Invoice')
+router.register(r'invoices/(?P<invoice_id>\d+)/merchant', views.InvoiceMerchantItemViewSet, 'Invoice')
 
+router.register(r'invoice_items', views.InvoiceItemViewSet)
+router.register(r'invoice_items/(?P<invoice_item_id>\d+)/invoice', views.InvoiceItemInvoiceViewSet, 'InvoiceItem')
+router.register(r'invoice_items/(?P<invoice_item_id>\d+)/item', views.InvoiceItemItemViewSet, 'InvoiceItem')
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),

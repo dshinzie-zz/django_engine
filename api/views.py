@@ -1,7 +1,17 @@
-from .models import Merchant, Item, Invoice
+from .models import Merchant
+from .models import Item
+from .models import Invoice
+from .models import Customer
+from .models import InvoiceItem
+from .models import Transaction
 from rest_framework import viewsets, generics
 from rest_framework.response import Response
-from api.serializers import MerchantSerializer, ItemSerializer, InvoiceSerializer, InvoiceItemSerializer, TransactionSerializer
+from api.serializers import MerchantSerializer
+from api.serializers import ItemSerializer
+from api.serializers import InvoiceSerializer
+from api.serializers import InvoiceItemSerializer
+from api.serializers import TransactionSerializer
+from api.serializers import CustomerSerializer
 
 class MerchantViewSet(viewsets.ModelViewSet):
     queryset = Merchant.objects.all()
@@ -54,4 +64,60 @@ class InvoiceTransactionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         invoice_id = self.kwargs['invoice_id']
         queryset = Invoice.objects.get(id=invoice_id).transaction_set.all()
+        return queryset
+
+class InvoiceInvoiceItemViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceItemSerializer
+
+    def get_queryset(self):
+        invoice_id = self.kwargs['invoice_id']
+        queryset = Invoice.objects.get(id=invoice_id).invoiceitem_set.all()
+        return queryset
+
+class InvoiceItemViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        invoice_id = self.kwargs['invoice_id']
+        queryset = Invoice.objects.get(id=invoice_id).item_set.all()
+        return queryset
+
+class InvoiceCustomerViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomerSerializer
+
+    def get_queryset(self):
+        invoice_id = self.kwargs['invoice_id']
+        customer = Invoice.objects.get(id=invoice_id).customer
+        queryset = Customer.objects.filter(id=customer.id)
+        return queryset
+
+class InvoiceMerchantItemViewSet(viewsets.ModelViewSet):
+    serializer_class = MerchantSerializer
+
+    def get_queryset(self):
+        invoice_id = self.kwargs['invoice_id']
+        merchant = Invoice.objects.get(id=invoice_id).merchant
+        queryset = Merchant.objects.filter(id=merchant.id)
+        return queryset
+
+class InvoiceItemViewSet(viewsets.ModelViewSet):
+    queryset = InvoiceItem.objects.all()
+    serializer_class = InvoiceItemSerializer
+
+class InvoiceItemInvoiceViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceSerializer
+
+    def get_queryset(self):
+        invoice_item_id = self.kwargs['invoice_item_id']
+        invoice = InvoiceItem.objects.get(id=invoice_item_id).invoice
+        queryset = Invoice.objects.filter(id=invoice.id)
+        return queryset
+
+class InvoiceItemItemViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        invoice_item_id = self.kwargs['invoice_item_id']
+        item = InvoiceItem.objects.get(id=invoice_item_id).item
+        queryset = Item.objects.filter(id=item.id)
         return queryset
