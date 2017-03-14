@@ -7,6 +7,9 @@ class Merchant(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 class Item(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True)
@@ -14,3 +17,48 @@ class Item(models.Model):
     merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name, self.description, self.unit_price, self.merchant, self.invoices
+
+class Customer(models.Model):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.first_name, self.last_name
+
+class Invoice(models.Model):
+    status = models.CharField(max_length=200)
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    items = models.ManyToManyField(Item, through='InvoiceItem')
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.status, self.merchant, self.customer, self.merchant, self.items
+
+class Transaction(models.Model):
+    credit_card_number = models.CharField(max_length=200)
+    credit_card_expiration_date = models.DateTimeField(default=None, null=True)
+    result = models.CharField(max_length=200)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True)
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.credit_card_number, self.credit_card_expiration_date, self.result, self.invoice
+
+class InvoiceItem(models.Model):
+    quantity = models.IntegerField(null=True)
+    unit_price = models.BigIntegerField(null=True)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.quantity, self.unit_price, self.invoice, self.item

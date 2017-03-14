@@ -1,7 +1,7 @@
 from .models import Merchant, Item
 from rest_framework import viewsets, generics
 from rest_framework.response import Response
-from api.serializers import MerchantSerializer, ItemSerializer
+from api.serializers import MerchantSerializer, ItemSerializer, InvoiceSerializer
 
 class MerchantViewSet(viewsets.ModelViewSet):
     queryset = Merchant.objects.all()
@@ -26,4 +26,12 @@ class ItemMerchantViewSet(viewsets.ModelViewSet):
         item_id = self.kwargs['item_id']
         merchant = Item.objects.get(id=item_id).merchant
         queryset = Merchant.objects.filter(id=merchant.id)
+        return queryset
+
+class MerchantInvoiceViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceSerializer
+
+    def get_queryset(self):
+        merchant_id = self.kwargs['merchant_id']
+        queryset = Merchant.objects.get(id=merchant_id).invoice_set.all()
         return queryset
