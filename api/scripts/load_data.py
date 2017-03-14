@@ -20,6 +20,7 @@ def load_merchants():
                 created_date=datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S %Z'),
                 published_date=datetime.strptime(row[3], '%Y-%m-%d %H:%M:%S %Z')
                 )
+                
 def load_items():
     path = './api/data/items.csv'
     with open(path, 'rb') as inputfile:
