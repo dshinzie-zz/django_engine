@@ -10,6 +10,12 @@ class Merchant(models.Model):
     def __unicode__(self):
         return self.name
 
+    @classmethod
+    def most_revenue(self, quantity):
+        # import pdb; pdb.set_trace()
+        merchants = Merchant.objects.raw('select m.*, sum(ii.quantity * ii.unit_price) as total from api_merchant m join api_invoice i on m.id = i.merchant_id join api_invoiceitem ii on i.id = ii.invoice_id group by m.id order by total desc')[:int(quantity)]
+        return merchants
+
 class Item(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True)

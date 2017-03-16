@@ -3,14 +3,21 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from api import views
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'merchants', views.MerchantViewSet)
 router.register(r'merchants/(?P<merchant_id>\d+)/items', views.MerchantItemViewSet, 'Merchant')
 router.register(r'merchants/(?P<merchant_id>\d+)/invoices', views.MerchantInvoiceViewSet, 'Merchant')
+router.register(r'merchants/find/', views.MerchantFindViewSet, 'Merchant')
+router.register(r'merchants/find_all/', views.MerchantFindAllViewSet, 'Merchant')
+router.register(r'merchants/random/', views.MerchantRandomViewSet, 'Merchant')
+router.register(r'merchants/most_revenue/', views.MerchantMostRevenueViewSet, 'Merchant')
 
 router.register(r'items', views.ItemViewSet)
 router.register(r'items/(?P<item_id>\d+)/merchant', views.ItemMerchantViewSet, 'Item')
 router.register(r'items/(?P<item_id>\d+)/invoice_items', views.ItemInvoiceItemViewSet, 'Item')
+router.register(r'items/find/', views.ItemFindViewSet, 'Item')
+router.register(r'items/find_all/', views.ItemFindAllViewSet, 'Item')
+router.register(r'items/random/', views.ItemRandomViewSet, 'Item')
 
 router.register(r'invoices', views.InvoiceViewSet)
 router.register(r'invoices/(?P<invoice_id>\d+)/transactions', views.InvoiceTransactionViewSet, 'Invoice')
@@ -18,6 +25,9 @@ router.register(r'invoices/(?P<invoice_id>\d+)/invoice_items', views.InvoiceInvo
 router.register(r'invoices/(?P<invoice_id>\d+)/items', views.InvoiceItemViewSet, 'Invoice')
 router.register(r'invoices/(?P<invoice_id>\d+)/customer', views.InvoiceCustomerViewSet, 'Invoice')
 router.register(r'invoices/(?P<invoice_id>\d+)/merchant', views.InvoiceMerchantItemViewSet, 'Invoice')
+router.register(r'invoices/find/', views.InvoiceFindViewSet, 'Invoice')
+router.register(r'invoices/find_all/', views.InvoiceFindAllViewSet, 'Invoice')
+router.register(r'invoices/random/', views.InvoiceRandomViewSet, 'Invoice')
 
 router.register(r'invoice_items', views.InvoiceItemViewSet)
 router.register(r'invoice_items/(?P<invoice_item_id>\d+)/invoice', views.InvoiceItemInvoiceViewSet, 'InvoiceItem')

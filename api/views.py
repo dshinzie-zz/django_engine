@@ -33,6 +33,50 @@ class MerchantItemViewSet(viewsets.ModelViewSet):
         queryset = Merchant.objects.get(id=merchant_id).item_set.all()
         return queryset
 
+class MerchantFindViewSet(viewsets.ModelViewSet):
+    serializer_class = MerchantSerializer
+
+    def get_queryset(self):
+        if 'id' in self.request.query_params:
+            merchant_id = self.request.query_params['id']
+            queryset = Merchant.objects.filter(id=merchant_id)
+
+        if 'name' in self.request.query_params:
+            merchant_name = self.request.query_params['name']
+            queryset = Merchant.objects.filter(name__iexact=merchant_name)
+
+        return queryset
+
+class MerchantFindAllViewSet(viewsets.ModelViewSet):
+    serializer_class = MerchantSerializer
+
+    def get_queryset(self):
+        if 'id' in self.request.query_params:
+            merchant_id = self.request.query_params['id']
+            queryset = Merchant.objects.filter(id=merchant_id)
+
+        if 'name' in self.request.query_params:
+            merchant_name = self.request.query_params['name']
+            queryset = Merchant.objects.filter(name__iexact=merchant_name)
+
+        return queryset
+
+class MerchantRandomViewSet(viewsets.ModelViewSet):
+    serializer_class = MerchantSerializer
+
+    def get_queryset(self):
+        merchant = Merchant.objects.order_by('?').first()
+        queryset = Merchant.objects.filter(id=merchant.id)
+        return queryset
+
+class MerchantMostRevenueViewSet(viewsets.ModelViewSet):
+    serializer_class = MerchantSerializer
+
+    def get_queryset(self):
+        quantity = self.request.query_params['quantity']
+        queryset = Merchant.most_revenue(quantity)
+        return queryset
+
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -42,8 +86,8 @@ class ItemMerchantViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         item_id = self.kwargs['item_id']
-        merchant = Item.objects.get(id=item_id).merchant
-        queryset = Merchant.objects.filter(id=merchant.id)
+        item = Item.objects.get(id=item_id).item
+        queryset = Merchant.objects.filter(id=item.id)
         return queryset
 
 class ItemInvoiceItemViewSet(viewsets.ModelViewSet):
@@ -52,6 +96,42 @@ class ItemInvoiceItemViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         item_id = self.kwargs['item_id']
         queryset = Item.objects.get(id=item_id).invoiceitem_set.all()
+        return queryset
+
+class ItemFindViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        if 'id' in self.request.query_params:
+            item_id = self.request.query_params['id']
+            queryset = Item.objects.filter(id=item_id)
+
+        if 'name' in self.request.query_params:
+            item_name = self.request.query_params['name']
+            queryset = Item.objects.filter(name__iexact=item_name)
+
+        return queryset
+
+class ItemFindAllViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        if 'id' in self.request.query_params:
+            merchant_id = self.request.query_params['id']
+            queryset = Item.objects.filter(id=merchant_id)
+
+        if 'name' in self.request.query_params:
+            merchant_name = self.request.query_params['name']
+            queryset = Item.objects.filter(name__iexact=merchant_name)
+
+        return queryset
+
+class ItemRandomViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        item = Item.objects.order_by('?').first()
+        queryset = Item.objects.filter(id=item.id)
         return queryset
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -98,6 +178,42 @@ class InvoiceMerchantItemViewSet(viewsets.ModelViewSet):
         invoice_id = self.kwargs['invoice_id']
         merchant = Invoice.objects.get(id=invoice_id).merchant
         queryset = Merchant.objects.filter(id=merchant.id)
+        return queryset
+
+class InvoiceFindViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceSerializer
+
+    def get_queryset(self):
+        if 'id' in self.request.query_params:
+            invoice_id = self.request.query_params['id']
+            queryset = Invoice.objects.filter(id=invoice_id)
+
+        if 'name' in self.request.query_params:
+            invoice_name = self.request.query_params['name']
+            queryset = Invoice.objects.filter(name__iexact=invoice_name)
+
+        return queryset
+
+class InvoiceFindAllViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceSerializer
+
+    def get_queryset(self):
+        if 'id' in self.request.query_params:
+            merchant_id = self.request.query_params['id']
+            queryset = Invoice.objects.filter(id=merchant_id)
+
+        if 'name' in self.request.query_params:
+            invoice_name = self.request.query_params['name']
+            queryset = Invoice.objects.filter(name__iexact=invoice_name)
+
+        return queryset
+
+class InvoiceRandomViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceSerializer
+
+    def get_queryset(self):
+        invoice = Invoice.objects.order_by('?').first()
+        queryset = Invoice.objects.filter(id=invoice.id)
         return queryset
 
 class InvoiceItemViewSet(viewsets.ModelViewSet):
@@ -152,6 +268,6 @@ class CustomerTransactionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         customer_id = self.kwargs['customer_id']
-        invoice_ids = Invoice.objects.filter(customer_id=customer_id).values_list('id', flat=True)        
+        invoice_ids = Invoice.objects.filter(customer_id=customer_id).values_list('id', flat=True)
         queryset = Transaction.objects.filter(invoice_id__in=invoice_ids)
         return queryset
