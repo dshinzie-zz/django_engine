@@ -1,7 +1,7 @@
 # README
 
 ### Description
-This project is a rewrite of [Rails Engine](https://github.com/dshinzie/rails-engine) in Python and Django from Ruby on Rails. Django Engine builds a JSON API with the SalesEngine data schema.
+This project is a rewrite of [Rails Engine](https://github.com/dshinzie/rails-engine) in Python and Django from Ruby on Rails. Django Engine builds a JSON API with the SalesEngine data schema using Django Rest Framework.
 
 ### Instructions
 To set up the application, run the following commands in the order listed:
